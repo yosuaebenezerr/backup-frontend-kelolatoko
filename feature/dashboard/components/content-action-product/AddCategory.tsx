@@ -11,7 +11,7 @@ import { InputText } from "@/feature/_global/components/InputText";
 import { BadgePlus } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
-import { useActionCategoryProduct } from "../../action/useActionCategoryProduct";
+import { useActionCategoryProduct } from "../../action/product/useActionCategoryProduct";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 

@@ -1,6 +1,6 @@
 import { validationAddProduct } from "@/schema/validation-add-product";
 import { useMutation } from "@tanstack/react-query";
-import productService from "../services/productService";
+import productService from "../../services/productService";
 
 export function useActionUpdateProduct({ productId }: { productId: string }) {
   const response = useMutation({

@@ -20,7 +20,7 @@ import { Step1CreateOrder } from "../step-create-order/Step1CreateOrder";
 import { Step2CreateOrder } from "../step-create-order/Step2CreateOrder";
 import { Step3CreateOrder } from "../step-create-order/Step3CreateOrder";
 import { FooterCreateOrder } from "../step-create-order/FooterCreateOrder";
-import { useActionAddOrder } from "../../action/useActionAddOrder";
+import { useActionAddOrder } from "../../action/order/useActionAddOrder";
 import { toast } from "sonner";
 
 export function CreateOrder({ className }: { className?: string }) {

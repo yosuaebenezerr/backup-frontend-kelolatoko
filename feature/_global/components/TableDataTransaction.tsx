@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,31 +9,15 @@ import {
 } from "@/components/ui/table";
 import { DetailTransaction } from "@/feature/dashboard/components/DetailTransaction";
 import { formatRupiah } from "@/feature/dashboard/helpers/formatRupuah";
-import { Info } from "lucide-react";
-
-interface transactionHighlight {
-  transactionId: string;
-  pelanggan: string;
-  tanggal: string;
-  productDetail: string[];
-  priceSell: number;
-  profitSell: number;
-}
+import { ITableTransaction } from "@/feature/dashboard/interface/dashboard-interface";
 
 export function TableDataTransaction({
   dataTransaction,
 }: {
-  dataTransaction: transactionHighlight[];
+  dataTransaction: ITableTransaction;
 }) {
-  const totalPenjualan = dataTransaction.reduce(
-    (acc, curr) => acc + curr.priceSell,
-    0,
-  );
-
-  const totalProfit = dataTransaction.reduce(
-    (acc, curr) => acc + curr.profitSell,
-    0,
-  );
+  const totalPenjualan = dataTransaction.totalTransaction;
+  const totalProfit = dataTransaction.totalProfit;
 
   return (
     <div className="flex w-325 px-7 py-3 justify-center border-2 rounded-lg">
@@ -51,26 +34,35 @@ export function TableDataTransaction({
         </TableHeader>
 
         <TableBody>
-          {dataTransaction.map((d) => (
-            <TableRow key={d.transactionId}>
-              <TableCell className="font-medium">{d.transactionId}</TableCell>
-              <TableCell>{d.pelanggan}</TableCell>
-              <TableCell>{d.tanggal}</TableCell>
-              <TableCell>{d.priceSell}</TableCell>
-              <TableCell>{d.profitSell}</TableCell>
+          {dataTransaction.transactions.map((d) => (
+            <TableRow key={d.numberTransaction}>
+              <TableCell className="font-medium">
+                {d.numberTransaction}
+              </TableCell>
+              <TableCell>{d.namaCustomer}</TableCell>
+              <TableCell>
+                {new Date(d.dateTransaction).toLocaleDateString("id-ID", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  weekday: "short",
+                })}
+              </TableCell>
+              <TableCell>{formatRupiah(d.totalTransaction)}</TableCell>
+              <TableCell>{formatRupiah(d.totalProfit)}</TableCell>
               <TableCell className="text-right">
                 <DetailTransaction
-                  namaPelanggan={d.pelanggan}
-                  detailTransaksi={d.productDetail}
-                  totalTransaksi={d.priceSell}
-                  totalKeuntungan={d.profitSell}
+                  namaPelanggan={d.namaCustomer}
+                  detailTransaksi={d.detailProduct}
+                  totalTransaksi={d.totalTransaction}
+                  totalKeuntungan={d.totalProfit}
                 />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
 
-        <TableFooter>
+        <TableFooter className="gap-2">
           <TableRow>
             <TableCell colSpan={5}>Total Penjualan</TableCell>
             <TableCell className="text-right">

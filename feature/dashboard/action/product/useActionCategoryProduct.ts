@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import productService from "../services/productService";
+import productService from "../../services/productService";
 
 export function useActionCategoryProduct() {
   const response = useMutation({

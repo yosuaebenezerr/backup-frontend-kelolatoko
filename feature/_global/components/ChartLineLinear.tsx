@@ -9,22 +9,10 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-
-export const description = "A linear line chart";
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "May", desktop: 209 },
-  { month: "January", desktop: 186 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "February", desktop: 305 },
-  { month: "May", desktop: 209 },
-  { month: "February", desktop: 305 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
+import { DatePickerWithRange } from "./DatePickerWithRange";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useGetChartTransactions } from "@/feature/dashboard/action/order/useGetChartTransactions";
 
 const chartConfig = {
   desktop: {
@@ -34,10 +22,27 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartLineLinear() {
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(new Date().setDate(new Date().getDate() - 30)),
+    to: new Date(new Date().setHours(23, 59, 59, 999)),
+  });
+
+  const { data: chartData } = useGetChartTransactions({
+    startDate: date?.from?.toISOString(),
+    endDate: date?.to?.toISOString(),
+  });
+
+  console.log(chartData);
+
   return (
     <Card className="w-full">
-      <CardHeader>
+      <CardHeader className="flex justify-between items-center">
         <CardTitle className="font-bold">PENDAPATAN</CardTitle>
+        <DatePickerWithRange
+          date={date}
+          setDate={setDate}
+          className="mx-60 border-2"
+        />
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-85 w-full px-2">
@@ -52,18 +57,34 @@ export function ChartLineLinear() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="date"
               tickLine={false}
               axisLine={false}
-              tickMargin={5}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickMargin={10}
+              interval="preserveStartEnd"
+              // tickFormatter={(value) => {
+              //   return value.toLocaleDateString("id-ID", {
+              //     month: "short",
+              //     day: "numeric",
+              //   });
+              // }}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="count"
+              type="linear"
+              stroke="var(--color-desktop)"
+              strokeWidth={2}
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Line
+              dataKey="value"
               type="linear"
               stroke="var(--color-desktop)"
               strokeWidth={2}

@@ -27,9 +27,9 @@ export function DialogChangePassword({
 
   function handleSubmit() {
     const submit = ChangePasswordSchema.safeParse({
-      oldPassword: oldPassword,
-      newPassword: newPassword,
-      confirmPassword: confirmPassword,
+      oldPassword,
+      newPassword,
+      confirmPassword,
     });
 
     if (!submit.success) {
@@ -42,31 +42,28 @@ export function DialogChangePassword({
       return;
     }
 
-    if (submit.success) {
-      changePassword(
-        {
-          data: {
-            oldPassword: oldPassword,
-            newPassword: newPassword,
-            confirmPassword: confirmPassword,
-          },
+    changePassword(
+      {
+        data: {
+          oldPassword,
+          newPassword,
+          confirmPassword,
         },
-        {
-          onSuccess: () => {
-            setOldPassword("");
-            setNewPassword("");
-            setConfirmPassword("");
+      },
+      {
+        onSuccess: () => {
+          setOldPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+          toast.success("Password berhasil diubah");
 
-            toast.success("Password berhasil diubah");
-            setIsOpen(false);
-          },
-          onError: () => {
-            toast.error("Gagal mengubah password");
-          },
+          setIsOpen(false);
         },
-      );
-      setIsOpen(false);
-    }
+        onError: () => {
+          toast.error("Gagal mengubah password");
+        },
+      },
+    );
   }
 
   return (

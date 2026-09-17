@@ -17,11 +17,14 @@ import { FormField, FormItem } from "@/components/ui/form";
 import { SearchProduct } from "@/feature/_global/components/SearchProduct";
 import { controlAddOrder } from "@/schema/validation-add-order";
 import { useState } from "react";
-import { useGetAllProduct } from "../../action/useGetAllProduct";
+import { useGetAllProduct } from "../../action/product/useGetAllProduct";
+import { useDebounce } from "@/feature/_global/utils/useDebounce";
 
 export function Step2CreateOrder({ control }: { control: controlAddOrder }) {
   const { control: formControl } = control;
   const [searchValue, setSearchValue] = useState("");
+
+  const valueDebounce = useDebounce(searchValue, 1000);
 
   const [selectedProduct, setSelectedProduct] = useState<{
     productId: string;
@@ -31,7 +34,7 @@ export function Step2CreateOrder({ control }: { control: controlAddOrder }) {
   const [active, setActive] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
-  const { data: product } = useGetAllProduct({ search: searchValue });
+  const { data: product } = useGetAllProduct({ search: valueDebounce });
 
   interface OrderItem {
     productId: string;
@@ -102,7 +105,7 @@ export function Step2CreateOrder({ control }: { control: controlAddOrder }) {
                 <DialogContent className="absolute left-8/11 w-96">
                   <DialogTitle className="font-bold">
                     {selectedProduct?.productId
-                      ? product!.find((p) => p.id === selectedProduct.productId)
+                      ? product?.find((p) => p.id === selectedProduct.productId)
                           ?.name
                       : "Selected Product"}
                   </DialogTitle>

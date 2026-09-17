@@ -31,9 +31,11 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
               <Image
                 src="/logoputihkelolatoko.png"
                 alt="Logo Kelola Toko"
-                width={160}
-                height={100}
-                className="object-contain"
+                width={150}
+                height={90}
+                className="object-contain h-auto w-auto"
+                unoptimized
+                priority
               />
             </Link>
 

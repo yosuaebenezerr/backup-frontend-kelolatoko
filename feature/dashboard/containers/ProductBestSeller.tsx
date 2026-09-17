@@ -1,7 +1,8 @@
 import { CardProduct } from "@/feature/_global/components/CardProduct";
-import { dataBestSeller } from "../utils/dataDummy";
+import { useGetBestSellerProduct } from "../action/product/useGetBestSellerProduct";
 
 export function ProductBestSeller() {
+  const { data: productBestSeller } = useGetBestSellerProduct();
   return (
     <div className="space-y-2 mt-10">
       <h1 className="bg-[#041336] w-fit text-white px-4 rounded-sm font-bold text-lg">
@@ -9,15 +10,17 @@ export function ProductBestSeller() {
       </h1>
 
       <div className="grid grid-cols-5 gap-4">
-        {dataBestSeller.map((product) => (
+        {productBestSeller?.map((product) => (
           <CardProduct
             productId={product.id}
             key={product.id}
             productName={product.name}
-            priceSell={product.price}
-            cleanProfit={product.cleanProfit}
+            priceSell={product.priceSell}
+            cleanProfit={product.priceSell}
             stock={product.stock}
             category={product.category}
+            mode="best-seller"
+            totalSold={product.totalSold}
           />
         ))}
       </div>

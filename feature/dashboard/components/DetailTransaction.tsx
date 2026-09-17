@@ -6,6 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Info } from "lucide-react";
+import { detailProduct } from "../models/orderModel";
 
 export function DetailTransaction({
   namaPelanggan,
@@ -14,7 +15,7 @@ export function DetailTransaction({
   totalKeuntungan,
 }: {
   namaPelanggan: string;
-  detailTransaksi: string[] | null;
+  detailTransaksi: detailProduct[];
   totalTransaksi: number;
   totalKeuntungan: number;
 }) {

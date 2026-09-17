@@ -10,3 +10,15 @@ export interface IResGet10Products extends GlobalResponse {
     category: string;
   }[];
 }
+
+export interface IResGetBestSeller extends GlobalResponse {
+  data: {
+    id: string;
+    totalSold: number;
+    name: string;
+    priceSell: number;
+    profit: number;
+    stock: number;
+    category: string;
+  }[];
+}

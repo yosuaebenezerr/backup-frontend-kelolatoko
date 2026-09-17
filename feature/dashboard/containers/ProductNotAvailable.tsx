@@ -3,7 +3,7 @@
 import { CardProduct } from "@/feature/_global/components/CardProduct";
 import { NotebookTabs } from "lucide-react";
 import Link from "next/link";
-import { useGet10ProductsNotAvailable } from "../action/useGet10ProductsNotAvailable";
+import { useGet10ProductsNotAvailable } from "../action/product/useGet10ProductsNotAvailable";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 

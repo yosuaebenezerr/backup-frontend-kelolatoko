@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetCategoryProduct } from "@/feature/dashboard/action/useGetCategoryProduct";
+import { useGetCategoryProduct } from "@/feature/dashboard/action/product/useGetCategoryProduct";
 
 export function OptionCategory({
   value,
@@ -45,7 +45,11 @@ export function OptionCategory({
 
         <SelectContent className="p-1.5">
           {selectCategory.map((opt) => (
-            <SelectItem key={opt.id} value={opt.id}>
+            <SelectItem
+              key={opt.id}
+              value={opt.id}
+              className="hover:bg-gray-200 hover:font-bold hover:cursor-pointer rounded-sm"
+            >
               {opt.name}
             </SelectItem>
           ))}

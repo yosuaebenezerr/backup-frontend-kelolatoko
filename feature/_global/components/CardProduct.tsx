@@ -1,15 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { AddProduct } from "@/feature/dashboard/components/content-action-product/AddProduct";
+
+import { ProductInformation } from "@/feature/_global/components/ProductInformation";
 import { formatRupiah } from "@/feature/dashboard/helpers/formatRupuah";
-import { SquarePen } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -20,6 +13,8 @@ export function CardProduct({
   cleanProfit,
   stock,
   category,
+  mode,
+  totalSold,
 }: {
   productId: string;
   productName: string;
@@ -27,12 +22,14 @@ export function CardProduct({
   cleanProfit: number;
   stock: number;
   category: string;
+  mode?: "best-seller" | "all-product";
+  totalSold?: number;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <Card
-        className="w-fit hover:cursor-pointer hover:shadow-lg transition-all duration-300"
+        className="w-85 hover:cursor-pointer hover:shadow-lg transition-all duration-300"
         onClick={() => setIsOpen(true)}
       >
         <Image
@@ -41,54 +38,32 @@ export function CardProduct({
           width={350}
           height={200}
           unoptimized
+          className="object-contain w-auto h-auto"
+          priority
         />
         <CardContent>
           <h3 className="font-bold line-clamp-1">{productName}</h3>
           <p className="text-lg">{formatRupiah(priceSell)}</p>
+          {mode === "best-seller" && (
+            <p className="flex test-md justify-end font-semibold">
+              Terjual: {totalSold}
+            </p>
+          )}
         </CardContent>
       </Card>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="gap-0.5">
-          <DialogTitle className="font-bold">{productName}</DialogTitle>
-          <DialogDescription className="text-sm text-muted-foreground">
-            Informasi Produk
-          </DialogDescription>
-
-          <div className="mt-4 space-y-2 w-full">
-            <p>
-              <span className="font-bold">Harga Jual:</span>{" "}
-              {formatRupiah(priceSell)}
-            </p>
-            <p>
-              <span className="font-bold">Keuntungan Bersih:</span>{" "}
-              {formatRupiah(cleanProfit)}
-            </p>
-            <p>
-              <span className="font-bold">Stok Persediaan:</span> {stock}
-            </p>
-            <p>
-              <span className="font-bold">Kategori:</span> {category}
-            </p>
-
-            <div className="flex justify-end">
-              <AddProduct
-                mode="edit"
-                editMode={{
-                  productId: productId,
-                  data: {
-                    name: productName,
-                    priceSell,
-                    profit: cleanProfit,
-                    stock,
-                    categoryId: category,
-                  },
-                }}
-              />
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {isOpen && (
+        <ProductInformation
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          productId={productId}
+          productName={productName}
+          priceSell={priceSell}
+          cleanProfit={cleanProfit}
+          stock={stock}
+          category={category}
+        />
+      )}
     </>
   );
 }

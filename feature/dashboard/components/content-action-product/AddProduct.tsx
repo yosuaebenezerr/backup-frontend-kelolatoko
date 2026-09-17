@@ -20,10 +20,10 @@ import { Form, FormField, FormItem } from "@/components/ui/form";
 import { InputText } from "@/feature/_global/components/InputText";
 import { OptionCategory } from "@/feature/_global/components/OptionCategory";
 import { InputNumber } from "@/feature/_global/components/InputNumber";
-import { useActionAddProduct } from "../../action/useActionAddProduct";
+import { useActionAddProduct } from "../../action/product/useActionAddProduct";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { useActionUpdateProduct } from "../../action/useActionUpdateProduct";
+import { useActionUpdateProduct } from "../../action/product/useActionUpdateProduct";
 
 export function AddProduct({
   mode,

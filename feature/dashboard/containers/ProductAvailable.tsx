@@ -3,7 +3,7 @@
 import { CardProduct } from "@/feature/_global/components/CardProduct";
 import { NotebookTabs, PackageSearch } from "lucide-react";
 import Link from "next/link";
-import { useGet10ProductsAvailable } from "../action/useGet10ProductsAvailable";
+import { useGet10ProductsAvailable } from "../action/product/useGet10ProductsAvailable";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { AddProduct } from "../components/content-action-product/AddProduct";
@@ -11,8 +11,6 @@ import { Button } from "@/components/ui/button";
 
 export function ProductAvailable() {
   const { data: productsAvailable, isLoading } = useGet10ProductsAvailable();
-
-  setTimeout(() => {}, 10000);
 
   return (
     <div className="space-y-2 mt-10">
@@ -43,7 +41,7 @@ export function ProductAvailable() {
         </div>
       )}
 
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-5 gap-5">
         {productsAvailable?.map((product) => (
           <CardProduct
             productId={product.id}

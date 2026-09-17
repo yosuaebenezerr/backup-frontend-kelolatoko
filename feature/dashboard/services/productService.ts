@@ -1,9 +1,11 @@
 import { API_ENDPOINTS } from "@/constants/api";
-import { IResGet10Products } from "@/feature/dashboard/models/productModel";
+import {
+  IResGet10Products,
+  IResGetBestSeller,
+} from "@/feature/dashboard/models/productModel";
 import apiClient from "@/lib/apiClient";
 import { validationAddProduct } from "@/schema/validation-add-product";
 import { IResGetCategory } from "../models/categoryModel";
-import { validationAddOrder } from "@/schema/validation-add-order";
 
 const productService = {
   addCategoryProduct: async ({ name }: { name: string }) => {
@@ -30,6 +32,12 @@ const productService = {
       },
     );
     return response;
+  },
+
+  getBestSellerProduct: async () => {
+    return await apiClient.get<IResGetBestSeller>(
+      API_ENDPOINTS.PRODUCT.getBestSellerProduct,
+    );
   },
 
   getAllProductAvailable: async ({
@@ -83,15 +91,6 @@ const productService = {
     const response = await apiClient.get<IResGet10Products>(
       API_ENDPOINTS.PRODUCT.get10ProductsNotAvailable,
     );
-    return response;
-  },
-
-  addOrder: async ({ data }: { data: validationAddOrder }) => {
-    const { namaCustomer, productSells } = data;
-    const response = await apiClient.post(API_ENDPOINTS.ORDER.addOrder, {
-      namaCustomer,
-      productSells,
-    });
     return response;
   },
 };

@@ -9,6 +9,8 @@ export function LoginContainer() {
         alt="Logo"
         width={350}
         height={200}
+        style={{ width: "auto", height: "auto" }}
+        priority
         unoptimized
       />
       <FormLogin />

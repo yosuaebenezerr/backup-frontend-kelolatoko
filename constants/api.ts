@@ -13,8 +13,12 @@ export const API_ENDPOINTS = {
     updateProduct: "/api/product/edit-product",
     allProduct: "/api/product/search/get-all-products",
     allProductStatus: "/api/product/all-products-status",
+    getBestSellerProduct: "/api/product/best-seller-products",
   },
   ORDER: {
     addOrder: "/api/order/add-orders",
+    getAllTransaction: "/api/order/get-all-transactions",
+    getHighlightTransaction: "/api/order/get-highlight-transactions",
+    getChartTransaction: "/api/order/get-chart-transactions",
   },
 };

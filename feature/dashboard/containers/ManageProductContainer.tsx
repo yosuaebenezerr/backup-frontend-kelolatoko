@@ -3,31 +3,45 @@
 import { OptionCategory } from "@/feature/_global/components/OptionCategory";
 import { useEffect, useState } from "react";
 import { CardProduct } from "@/feature/_global/components/CardProduct";
-import { useGetAllProductAvailable } from "../action/useGetAllProductAvailable";
+import { useGetAllProductAvailable } from "../action/product/useGetAllProductAvailable";
 import { StatusManageProduct } from "@/feature/_global/components/StatusManageProduct";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useGetCategoryProduct } from "../action/product/useGetCategoryProduct";
 
 export function ManageProductContainer() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const { data: getCategory } = useGetCategoryProduct();
+
   const [selectedStatus, setSelectedStatus] = useState(
     () => searchParams.get("status") || "all",
   );
-  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    () => searchParams.get("category") || "all",
+  );
+
+  const queryCategory = getCategory?.find((val) => {
+    return val.id === selectedCategory;
+  });
 
   useEffect(() => {
     const params = new URLSearchParams();
-    if (selectedStatus !== "all") params.set("status", selectedStatus);
-    const queryString = params.toString();
-    router.replace(`${pathname}${queryString ? `?${queryString}` : ""}`);
-  }, [selectedStatus, pathname, router]);
+    if (selectedStatus !== "all") params.append("status", selectedStatus);
+    if (selectedCategory !== "all")
+      params.append("category", queryCategory?.name || "");
+
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+    );
+  }, [selectedStatus, queryCategory, selectedCategory, pathname, router]);
 
   const { data } = useGetAllProductAvailable({
     status: selectedStatus === "all" ? undefined : selectedStatus,
-    category: selectedCategory === "all" ? undefined : selectedCategory,
+    category: queryCategory?.name === "all" ? undefined : queryCategory?.name,
   });
 
   const dataProduct = data || [];
@@ -62,6 +76,7 @@ export function ManageProductContainer() {
         {dataProduct.map((p) => (
           <CardProduct
             key={p.id}
+            productId={p.id}
             productName={p.name}
             cleanProfit={p.profit}
             priceSell={p.priceSell}

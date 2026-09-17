@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FormControl,
   FormField,
@@ -11,22 +13,26 @@ export function Step3CreateOrder({ control }: { control: controlAddOrder }) {
   const { control: formControl } = control;
 
   return (
-    <FormField
-      control={formControl}
-      name="inputPayment"
-      render={({ field }) => (
-        <FormItem className="w-full">
-          <FormControl>
-            <InputNumberRupiah
-              value={field.value}
-              setValue={field.onChange}
-              namingText="Input Pembayaran"
-              className=""
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <>
+      <FormField
+        control={formControl}
+        name="inputPayment"
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <InputNumberRupiah
+                value={field.value}
+                setValue={field.onChange}
+                namingText="Input Pembayaran"
+                className=""
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <p></p>
+    </>
   );
 }

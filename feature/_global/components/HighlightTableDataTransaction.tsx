@@ -9,17 +9,18 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 
-interface transactionHighlight {
-  transactionId: string;
-  pelanggan: string;
-  tanggal: string;
-  total: string;
+interface TableTransactionProps {
+  id: string;
+  numberTransaction: string;
+  namaCustomer: string;
+  createdAt: string;
+  totalTransaction: number;
 }
 
 export function HighlightTableDataTransaction({
   dataTransaction,
 }: {
-  dataTransaction: transactionHighlight[];
+  dataTransaction: TableTransactionProps[];
 }) {
   return (
     <div className="border-2 w-full rounded-md px-4">
@@ -34,7 +35,7 @@ export function HighlightTableDataTransaction({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-25">No</TableHead>
+            <TableHead className="w-55">No</TableHead>
             <TableHead>Pelanggan</TableHead>
             <TableHead>Tanggal</TableHead>
             <TableHead className="text-right">Total</TableHead>
@@ -43,11 +44,26 @@ export function HighlightTableDataTransaction({
 
         <TableBody>
           {dataTransaction.map((d) => (
-            <TableRow key={d.transactionId}>
-              <TableCell className="font-medium">{d.transactionId}</TableCell>
-              <TableCell>{d.pelanggan}</TableCell>
-              <TableCell>{d.tanggal}</TableCell>
-              <TableCell className="text-right">{d.total}</TableCell>
+            <TableRow key={d.id}>
+              <TableCell className="font-medium">
+                {d.numberTransaction}
+              </TableCell>
+              <TableCell>{d.namaCustomer}</TableCell>
+              <TableCell>
+                {new Date(d.createdAt).toLocaleDateString("id-ID", {
+                  day: "2-digit",
+                  weekday: "short",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </TableCell>
+              <TableCell className="text-right">
+                {d.totalTransaction.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  maximumFractionDigits: 0,
+                })}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -55,7 +71,16 @@ export function HighlightTableDataTransaction({
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
+            <TableCell className="text-right">
+              {dataTransaction
+                .map((tr) => tr.totalTransaction)
+                .reduce((acc, value) => acc + value, 0)
+                .toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  maximumFractionDigits: 0,
+                })}
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
