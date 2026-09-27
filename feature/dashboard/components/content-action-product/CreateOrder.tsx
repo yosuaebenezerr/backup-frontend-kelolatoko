@@ -26,12 +26,12 @@ import { toast } from "sonner";
 export function CreateOrder({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const form = useForm({
+  const form = useForm<validationAddOrder>({
     resolver: zodResolver(AddOrderSchema),
     defaultValues: {
       namaCustomer: "",
-      inputPayment: 0,
       productSells: [],
+      paymentMethod: "CASH",
     },
   });
 
@@ -40,13 +40,34 @@ export function CreateOrder({ className }: { className?: string }) {
   function submitForm(data: validationAddOrder) {
     const formData = new FormData();
     formData.append("namaCustomer", data.namaCustomer);
-    formData.append("inputPayment", data.inputPayment.toString());
+    formData.append("paymentMethod", data?.paymentMethod || "CASH");
     formData.append("productSells", JSON.stringify(data.productSells));
 
     addOrder(
       { data },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
+          const snapToken = response.token;
+          if (typeof window !== "undefined" && window.snap) {
+            window.snap.pay(snapToken, {
+              onSuccess: () => {
+                toast.success("Pembayaran berhasil!");
+                reset();
+                setIsOpen(false);
+              },
+              onPending: () => {
+                toast("Pembayaran pending!");
+                setIsOpen(false);
+              },
+              onError: () => {
+                toast.error("Pembayaran gagal!");
+                setIsOpen(false);
+              },
+              onClose: () => {
+                toast.warning("Anda menutup sesi pembayaran sebelum selesai.");
+              },
+            });
+          }
           toast.success("Pesanan berhasil dibuat!");
           reset();
           setIsOpen(false);

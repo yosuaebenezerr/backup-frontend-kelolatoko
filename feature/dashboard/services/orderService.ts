@@ -5,16 +5,20 @@ import {
   IResGetAllTransaction,
   ResGetChartTransaction,
   ResGetHighlightTransaction,
+  responseAddOrder,
 } from "../models/orderModel";
 
 const orderService = {
   addOrder: async ({ data }: { data: validationAddOrder }) => {
     const { namaCustomer, productSells } = data;
-    const response = await apiClient.post(API_ENDPOINTS.ORDER.addOrder, {
-      namaCustomer,
-      productSells,
-    });
-    return response;
+    const response = await apiClient.post<responseAddOrder>(
+      API_ENDPOINTS.ORDER.addOrder,
+      {
+        namaCustomer,
+        productSells,
+      },
+    );
+    return response.data.data;
   },
 
   getAllTransaction: async ({

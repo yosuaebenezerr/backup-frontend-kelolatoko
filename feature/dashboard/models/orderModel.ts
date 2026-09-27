@@ -1,5 +1,14 @@
 import { GlobalResponse } from "@/feature/_global/interface/global.interface";
 
+export interface responseAddOrder extends GlobalResponse {
+  data: {
+    token: string;
+    numberTransaction: string;
+    totalTransaction: number;
+    redirectUrl: string;
+  };
+}
+
 export interface detailProduct {
   nameProduct: string;
   priceProduct: number;

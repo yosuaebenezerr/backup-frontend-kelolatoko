@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { ReactQueryProvider } from "@/providers/providers";
 import { cn } from "@/lib/utils";
+import Script from "next/script";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -64,6 +65,12 @@ export default function RootLayout({
               width: "365px",
             },
           }}
+        />
+
+        <Script
+          src="https://app.sandbox.midtrans.com/snap/snap.js"
+          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+          strategy="afterInteractive"
         />
       </body>
     </html>

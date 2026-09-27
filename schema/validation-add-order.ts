@@ -14,7 +14,7 @@ export const AddOrderSchema = z.object({
       }),
     )
     .min(1, "List item produk wajib diisi!"),
-  inputPayment: z.number().min(1, "Input Payment wajib diisi!"),
+  paymentMethod: z.enum(["CASH", "MIDTRANS"]).optional(),
 });
 
 export type validationAddOrder = z.infer<typeof AddOrderSchema>;
